@@ -40,9 +40,28 @@ class BinarySearchTree:
     # False if it does not
 
     def contains(self, target):
-        pass
+        # if the value of the current node equals the target value
+        # we have found a match - return True
+        if self.value == target:
+            return True
+
+        # if the target value is less than the value of the current node
+        if target < self.value:
+            # if the current node does not have a left child
+            if not self.left:
+                return False
+            else:
+                # otherwise, repeat process for current node's left child
+                return self.left.contains(target)
+        else:  # if the value is greater than the current node's value
+            # do the same for the right side
+            if not self.right:
+                return False
+            else:
+                return self.right.contains(target)
 
     # Return the maximum value found in the tree
+
     def get_max(self):
         pass
 
@@ -85,5 +104,8 @@ bst.insert(2)
 bst.insert(3)
 bst.insert(7)
 bst.insert(6)
-print(bst.left.right.value)
-print(bst.right.left.value)
+print(bst.contains(5))
+print(bst.contains(2))
+print(bst.contains(3))
+print(bst.contains(7))
+print(bst.contains(6))
