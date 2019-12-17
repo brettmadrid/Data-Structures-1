@@ -21,7 +21,7 @@ class BinarySearchTree:
                 self.left = BinarySearchTree(value)
             else:
                 # otherwise if there is already a left child
-                # repeat the process until no self.left can be found
+                # repeat the process until value finds the proper place to insert
                 self.left.insert(value)
 
         # check if the new node's value is >= to our current node's value
@@ -46,6 +46,7 @@ class BinarySearchTree:
             return True
 
         # if the target value is less than the value of the current node
+        # we have to search to the left
         if target < self.value:
             # if the current node does not have a left child
             if not self.left:
@@ -79,18 +80,62 @@ class BinarySearchTree:
         if self.right:
             cb(self.right.for_each(cb))
 
+    def iterative_depth_first_for_each(self, cb):
+        stack = []
+        stack.append(self)
+
+        while len(stack):
+            current_node = stack.pop()
+            if current_node.right:
+                stack.append(current_node.right)
+            if current_node.left:
+                stack.append(current_node.left)
+            cb(current_node.value)
+
+    def iterative_breadth_first_for_each(self, cb):
+        q = []
+        q.append(self)
+
+        while len(q):
+            current_node = q.pop(0)
+            if current_node.left:
+                q.append(current_node.left)
+            if current_node.right:
+                q.append(current_node.right)
+            cb(current_node.value)
+
         # DAY 2 Project -----------------------
 
         # Print all the values in order from low to high
         # Hint:  Use a recursive, depth first traversal
 
+    def in_order_dft(self, node):
+        if node is None:
+            return
+        self.in_order_dft(node.left)
+        print(node.value)
+        self.in_order_dft(node.right)
+
     def in_order_print(self, node):
-        pass
+        if node is None:
+            return
+        self.in_order_dft(node.left)
+        print(node.value)
+        self.in_order_dft(node.right)
 
     # Print the value of every node, starting with the given node,
     # in an iterative breadth first traversal
     def bft_print(self, node):
-        pass
+        que = Queue()
+        que.enqueue(node)
+
+        while que.len() > 0:
+            current = que.dequeue()
+            print(current.value)
+            if current.left:
+                que.enqueue(current.left)
+            if current.right:
+                que.enqueue(current.right)
 
     # Print the value of every node, starting with the given node,
     # in an iterative depth first traversal
