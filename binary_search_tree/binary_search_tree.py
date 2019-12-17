@@ -63,17 +63,21 @@ class BinarySearchTree:
     # Return the maximum value found in the tree
 
     def get_max(self):
-        pass
+        if not self:
+            return None
+        if not self.right:
+            return self.value
+        return self.right.get_max()
 
     # Call the function `cb` on the value of each node
     # You may use a recursive or iterative approach
     def for_each(self, cb):
-        pass
 
-    # DAY 2 Project -----------------------
+        # DAY 2 Project -----------------------
 
-    # Print all the values in order from low to high
-    # Hint:  Use a recursive, depth first traversal
+        # Print all the values in order from low to high
+        # Hint:  Use a recursive, depth first traversal
+
     def in_order_print(self, node):
         pass
 
@@ -104,8 +108,4 @@ bst.insert(2)
 bst.insert(3)
 bst.insert(7)
 bst.insert(6)
-print(bst.contains(5))
-print(bst.contains(2))
-print(bst.contains(3))
-print(bst.contains(7))
-print(bst.contains(6))
+print(bst.get_max())
