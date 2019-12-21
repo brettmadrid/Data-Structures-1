@@ -8,35 +8,6 @@ class ListNode:
         self.prev = prev
         self.next = next
 
-    """Wrap the given value in a ListNode and insert it
-    after this node. Note that this node could already
-    have a next node it is point to."""
-
-    def insert_after(self, value):
-        current_next = self.next
-        self.next = ListNode(value, self, current_next)
-        if current_next:
-            current_next.prev = self.next
-
-    """Wrap the given value in a ListNode and insert it
-    before this node. Note that this node could already
-    have a previous node it is point to."""
-
-    def insert_before(self, value):
-        current_prev = self.prev
-        self.prev = ListNode(value, current_prev, self)
-        if current_prev:
-            current_prev.next = self.prev
-
-    """Rearranges this ListNode's previous and next pointers
-    accordingly, effectively deleting this ListNode."""
-
-    def delete(self):
-        if self.prev:
-            self.prev.next = self.next
-        if self.next:
-            self.next.prev = self.prev
-
 
 """Our doubly-linked list class. It holds references to
 the list's head and tail nodes."""
@@ -58,12 +29,13 @@ class DoublyLinkedList:
     def add_to_head(self, value):
         new_node = ListNode(value)
         self.length += 1
-        if not self.head:
+        # this is the first element in the list
+        if not self.head and not self.tail:
             self.head = new_node
             self.tail = new_node
         else:
-            self.head.prev = new_node
             new_node.next = self.head
+            self.head.prev = new_node
             self.head = new_node
 
     """Removes the List's current head node, making the
@@ -74,12 +46,10 @@ class DoublyLinkedList:
         if not self.head:
             return
         else:
-            oldHead = self.head
-            newHead = self.head.next
-            newHead.prev = None
-            oldHead.next = None
-            self.head = newHead
             self.length -= 1
+            oldHead = self.head
+            if oldHead.next:
+                oldHead.next.prev = oldHead.prev
             return oldHead.value
 
     """Wraps the given value in a ListNode and inserts it 
@@ -150,6 +120,12 @@ class DoublyLinkedList:
             nextNode.prev = prevNode
             self.add_to_tail(val)
 
+    def insert_before(self, node):
+        pass
+
+    def insert_after(self, node):
+        pass
+
     """Removes a node from the list and handles cases where
     the node was the head or the tail"""
 
@@ -176,3 +152,14 @@ class DoublyLinkedList:
 
     def get_max(self):
         pass
+
+
+dll = DoublyLinkedList()
+dll.add_to_tail(1)
+print(dll.length)
+dll.add_to_tail(30)
+print(dll.tail.prev.value)
+print(dll.length)
+dll.add_to_tail(20)
+print(dll.tail.prev.value)
+print(dll.length)
