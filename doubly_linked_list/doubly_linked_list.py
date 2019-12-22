@@ -102,15 +102,16 @@ class DoublyLinkedList:
             return
         else:
             self.length -= 1
+            oldTail = self.tail
             if self.head == self.tail:
                 self.head = None
                 self.tail = None
             else:
-                oldTail = self.tail
                 newTail = self.tail.prev
                 oldTail.prev = None
                 newTail.next = None
                 self.tail = newTail
+            return oldTail.value
 
     """Removes the input node from its current spot in the 
     List and inserts it as the new head node of the List."""
@@ -173,12 +174,14 @@ class DoublyLinkedList:
     """Returns the highest value currently in the list"""
 
     def get_max(self):
-        pass
+        currNode = self.head
+        maxValue = self.head.value
+        while currNode:
+            if currNode.value > maxValue:
+                maxValue = currNode.value
+            currNode = currNode.next
+        return maxValue
 
 
-dll = DoublyLinkedList()
-dll.add_to_head(1)
-dll.add_to_head(10)
-print(dll.head.value)
-print(dll.head.next.value)
-print(dll.length)
+node = ListNode(1)
+dll = DoublyLinkedList(node)
