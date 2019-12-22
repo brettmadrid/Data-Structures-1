@@ -28,6 +28,15 @@ class ListNode:
         if current_prev:
             current_prev.next = self.prev
 
+    """Rearranges this ListNode's previous and next pointers 
+    accordingly, effectively deleting this ListNode."""
+
+    def delete(self):
+        if self.prev:
+            self.prev.next = self.next
+        if self.next:
+            self.next.prev = self.prev
+
 
 """Our doubly-linked list class. It holds references to
 the list's head and tail nodes."""
@@ -98,38 +107,19 @@ class DoublyLinkedList:
     Returns the value of the removed Node."""
 
     def remove_from_tail(self):
-        if not self.tail:
-            return
-        else:
-            self.length -= 1
-            oldTail = self.tail
-            if self.head == self.tail:
-                self.head = None
-                self.tail = None
-            else:
-                newTail = self.tail.prev
-                oldTail.prev = None
-                newTail.next = None
-                self.tail = newTail
-            return oldTail.value
+        value = self.tail.value
+        self.delete(self.tail)
+        return value
 
     """Removes the input node from its current spot in the 
     List and inserts it as the new head node of the List."""
 
     def move_to_front(self, node):
-        if node == self.head:
+        if node is self.head:
             return
-        if node == self.tail:
-            self.remove_from_tail()
-            self.add_to_head(node.value)
-        else:
-            self.delete(node)
-            val = node.value
-            prevNode = node.prev
-            nextNode = node.next
-            prevNode.next = nextNode
-            nextNode.prev = prevNode
-            self.add_to_head(val)
+        value = node.value
+        self.delete(node)
+        self.add_to_head(value)
 
     """Removes the input node from its current spot in the 
     List and inserts it as the new tail node of the List."""
@@ -155,21 +145,21 @@ class DoublyLinkedList:
     def delete(self, node):
         if not self.head and not self.tail:
             return
+        if self.head == self.tail:
+            self.head = None
+            self.tail = None
+            self.length -= 1
+        elif self.head == node:
+            self.head = node.next
+            self.length -= 1
+            node.delete()
+        elif self.tail == node:
+            self.tail = node.prev
+            self.length -= 1
+            node.delete()
         else:
-            if node == self.head and self.length == 1:
-                self.head = None
-                self.tail = None
-                self.length -= 1
-            elif node == self.head:
-                self.remove_from_head()
-            elif node == self.tail:
-                self.remove_from_tail()
-            else:
-                if node.prev:
-                    node.prev.next = node.next
-                if node.next:
-                    node.next.prev = node.prev
-                self.length -= 1
+            self.length -= 1
+            node.delete()
 
     """Returns the highest value currently in the list"""
 

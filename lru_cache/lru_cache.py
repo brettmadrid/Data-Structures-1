@@ -27,12 +27,9 @@ class LRUCache:
     def get(self, key):
         if key in self.storage:
             node = self.storage[key]
-
             # move to the front
             self.dll.move_to_front(node)
-
             return node.value[1]
-
         else:
             return None
 
@@ -63,8 +60,8 @@ class LRUCache:
         # check to see if the cache is full - if length is at limit
         if self.size == self.limit:
             # if so, delete oldest item from both dll and storage
-            self.dll.remove_from_tail()
             self.storage.pop(self.dll.tail.value[0])
+            self.dll.remove_from_tail()
             self.size -= 1
 
         # add key & value to the front of the dll as a tuple
