@@ -181,7 +181,3 @@ class DoublyLinkedList:
                 maxValue = currNode.value
             currNode = currNode.next
         return maxValue
-
-
-node = ListNode(1)
-dll = DoublyLinkedList(node)
