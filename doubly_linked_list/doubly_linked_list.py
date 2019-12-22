@@ -8,6 +8,26 @@ class ListNode:
         self.prev = prev
         self.next = next
 
+    """Wrap the given value in a ListNode and insert it
+    after this node. Note that this node could already
+    have a next node it is point to."""
+
+    def insert_after(self, value):
+        current_next = self.next
+        self.next = ListNode(value, self, current_next)
+        if current_next:
+            current_next.prev = self.next
+
+    """Wrap the given value in a ListNode and insert it
+    before this node. Note that this node could already
+    have a previous node it is point to."""
+
+    def insert_before(self, value):
+        current_prev = self.prev
+        self.prev = ListNode(value, current_prev, self)
+        if current_prev:
+            current_prev.next = self.prev
+
 
 """Our doubly-linked list class. It holds references to
 the list's head and tail nodes."""
@@ -46,10 +66,16 @@ class DoublyLinkedList:
         if not self.head:
             return
         else:
-            self.length -= 1
             oldHead = self.head
-            if oldHead.next:
-                oldHead.next.prev = oldHead.prev
+            self.length -= 1
+            if self.length == 0:
+                self.head = None
+                self.tail = None
+            else:
+                newHead = oldHead.next
+                newHead.prev = None
+                oldHead.next = None
+                self.head = newHead
             return oldHead.value
 
     """Wraps the given value in a ListNode and inserts it 
@@ -96,6 +122,7 @@ class DoublyLinkedList:
             self.remove_from_tail()
             self.add_to_head(node.value)
         else:
+            self.delete(node)
             val = node.value
             prevNode = node.prev
             nextNode = node.next
@@ -114,17 +141,12 @@ class DoublyLinkedList:
             self.add_to_tail(node.value)
         else:
             val = node.value
+            self.delete(node)
             prevNode = node.prev
             nextNode = node.next
             prevNode.next = nextNode
             nextNode.prev = prevNode
             self.add_to_tail(val)
-
-    def insert_before(self, node):
-        pass
-
-    def insert_after(self, node):
-        pass
 
     """Removes a node from the list and handles cases where
     the node was the head or the tail"""
@@ -155,11 +177,8 @@ class DoublyLinkedList:
 
 
 dll = DoublyLinkedList()
-dll.add_to_tail(1)
-print(dll.length)
-dll.add_to_tail(30)
-print(dll.tail.prev.value)
-print(dll.length)
-dll.add_to_tail(20)
-print(dll.tail.prev.value)
+dll.add_to_head(1)
+dll.add_to_head(10)
+print(dll.head.value)
+print(dll.head.next.value)
 print(dll.length)
