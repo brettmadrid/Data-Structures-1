@@ -29,7 +29,9 @@ class LRUCache:
             # move to the front
             node = self.storage[key]
             self.dll.move_to_front(node)
+
             return node.value[1]
+
         else:
             return None
 
@@ -64,11 +66,11 @@ class LRUCache:
             self.storage.pop(self.dll.tail.value[0])
             self.size -= 1
 
-        else:
-            # add key & value to the front of the dll as a tuple
-            self.dll.add_to_head((key, value))
+        # add key & value to the front of the dll as a tuple
+        self.dll.add_to_head((key, value))
 
-            # add key and node to the dictionary
-            # the value of the key is the memory address of the node
-            self.storage[key] = self.dll.head
-            self.size += 1
+        # add key and node to the dictionary
+        # the value of the key is the memory address of the node
+        self.storage[key] = self.dll.head
+        self.size += 1
+        return
