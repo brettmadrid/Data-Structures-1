@@ -26,8 +26,9 @@ class LRUCache:
 
     def get(self, key):
         if key in self.storage:
-            # move to the front
             node = self.storage[key]
+
+            # move to the front
             self.dll.move_to_front(node)
 
             return node.value[1]
@@ -52,10 +53,10 @@ class LRUCache:
 
             # update it with the new value
             node = self.storage[key]
-            node.value = (key, value)
 
             # move it to the front of the dll
             self.dll.move_to_front(node)
+            node.value = (key, value)
 
             return
 
