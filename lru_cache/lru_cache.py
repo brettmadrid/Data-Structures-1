@@ -25,7 +25,13 @@ class LRUCache:
     """
 
     def get(self, key):
-        pass
+        if key in self.storage:
+            # move to the front
+            node = self.storage[key]
+            self.dll.move_to_front(node)
+            return node.value[1]
+        else:
+            return None
 
     """
     Adds the given key-value pair to the cache. The newly-
